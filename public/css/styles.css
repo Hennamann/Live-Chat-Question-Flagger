@@ -1,0 +1,60 @@
+body {
+    font: 13px Helvetica, Arial;
+    padding-left: 15px;
+    padding-top: 10px;
+    overflow-y: hidden;
+}
+
+.container {
+    width: 100%;
+}
+
+#messages {
+    width: 750px;
+    float: left;
+    height: 800px;
+    overflow-y: scroll;
+}
+
+#questions {
+    margin-left: 770px;
+    height: 800px;
+    overflow-y: scroll;
+}
+
+#avatar {
+    float: left;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+#name {
+    font-size: 18px;
+}
+
+#message {
+    font-size: 14px;
+}
+
+#inner-msg {
+    vertical-align: middle;
+    padding-bottom: 15px;
+}
+
+#flag-button {
+    cursor: pointer;
+}
+
+#flag-button:hover {
+    color: red;
+    cursor: pointer;
+}
+
+#lowerthird-btn {
+    cursor: pointer;
+}
+
+#lowerthird-btn:hover {
+    color: red;
+    cursor: pointer;
+}

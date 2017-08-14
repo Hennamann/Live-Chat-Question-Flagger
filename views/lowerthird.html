@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>MRC Live Chat Moderation Tool - Lower Third</title>
+    <link rel="stylesheet" type="text/css" href="css/lowerthird.css">
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://use.fontawesome.com/a5d45003c8.js"></script>
+<script>
+    $(function () {
+        var socket = io();
+
+        socket.on('lower third', function (id, img, name, msg) {
+            $('#avatar').attr('src', img), $('#name').text(name + ' asked the question:'), $(
+                '#question').text(msg);
+        })
+    });
+</script>
+
+<body>
+
+    <div class="container">
+        <div id="lowerthird-message">
+            <img id="avatar">
+            <p id="name"></p>
+            <p id="question"></p>
+        </div>
+    </div>
+
+</body>
+
+</html>

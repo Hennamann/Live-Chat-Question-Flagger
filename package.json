@@ -1,0 +1,25 @@
+{
+  "name": "mrc-youtube-questions-approver",
+  "version": "1.0.0",
+  "description": "A simple server and client project for flagging youtube live chat comments as questions, then generating a lower third for the flagged comments.",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js"
+  },
+  "keywords": [
+    "youtube",
+    "mrc",
+    "livestream"
+  ],
+  "author": "Ole Henrik Stabell",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-ipfilter": "^0.3.1",
+    "jade": "^1.11.0",
+    "serve-favicon": "^2.4.3",
+    "socket.io": "^2.0.3",
+    "socket.io-redis": "^5.1.0",
+    "youtube-live-chat": "0.0.4"
+  }
+}
