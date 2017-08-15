@@ -13,7 +13,7 @@
         var socket = io();
 
         socket.on('lower third', function (id, img, name, msg) {
-            $('#avatar').attr('src', img), $('#name').text(name + ' asked the question:'), $(
+            $('#avatar').attr('src', img), $('#name').text(name), $(
                 '#question').text(msg);
         })
     });
@@ -23,7 +23,7 @@
 
     <div class="container">
         <div id="lowerthird-message">
-            <img id="avatar">
+            <img id="avatar" height="176" width="176">
             <p id="name"></p>
             <p id="question"></p>
         </div>
