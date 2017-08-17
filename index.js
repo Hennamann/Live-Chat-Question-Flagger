@@ -42,8 +42,8 @@ ytClient.on('error', err => {
 
 // Setup a public folder on the server and add a favicon.
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(__dirname + '/public/favicon.ico'));
-// app.use(ipfilter(ips, { mode: 'allow' }));
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+//app.use(ipfilter(ips, { mode: 'allow' }));
 
 app.set('view engine', 'jade');
 
