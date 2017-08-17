@@ -30,3 +30,4 @@ node_modules
 auth\.json
 
 public/favicon\.ico
+.DS_Store

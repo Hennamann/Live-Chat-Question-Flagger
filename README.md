@@ -1,4 +1,4 @@
-# YouTube Live Questions and Answers Lower Third Generator
+# Live Questions and Answers Lower Third Generator
 
 A nodejs web app for flagging youtube live chat comments as questions, and generating lower thirds.
 
@@ -22,6 +22,8 @@ A nodejs web app for flagging youtube live chat comments as questions, and gener
 ### Installation
 
 This app requires [Node.js](https://nodejs.org/) v6+ to run.
+
+These instructions assume you are using Debian.
 
 Install the dependencies and clone the repo.
 
@@ -55,6 +57,22 @@ node index.js
 Go to http://localhost to see the app in action.
 
 View the lowerthird at http://localhost/lowerthird.
+
+If you want to run the app contiously you can use the node module forever:
+
+```sh
+npm install forever -g
+forever start index.js
+```
+
+This will run the server even if you leave your ssh session. 
+
+You can also use Screen, which comes with almost any Linux installation.
+
+```sh
+screen -S server
+```
+To detach yourself from the screen press Ctrl+A then d separately.
 
 ### Development
 
