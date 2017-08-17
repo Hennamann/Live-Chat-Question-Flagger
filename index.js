@@ -16,7 +16,6 @@ var jade = require('jade');
 //}
 
 // Checks for a JSON file containing important and secret credentials.
-
 try {
     var authDetails = require(__dirname + "/auth.json");
 } catch (e) {
@@ -26,6 +25,12 @@ try {
 
 //var ips = (ipwhitelist.ips);
 
+tryUntilSuccess();
+
+function tryUntilSuccess() {
+
+    console.log('[INFO/YouTube API]: Attempting to find live stream');
+
 // Connecting to the YT api using a channel id and youtube api key from the auth.json file.
 var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
 
@@ -33,12 +38,20 @@ var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
 ytClient.on('ready', () => {
     console.log('[INFO/YouTube API]:' + ' ready!');
     ytClient.listen(1000);
+    tryUntilSuccess();
 });
 
 // if the youtube api fails, print the error output to console.
 ytClient.on('error', err => {
     console.log('[INFO/YouTube API]:' + ' ' + err);
+    tryUntilSuccess();
 });
+
+// Emit every new YT chat message to Socket.io.
+ytClient.on('chat', json => {
+    io.emit('chat message', json.id, json.authorDetails.profileImageUrl, json.authorDetails.displayName, json.snippet.displayMessage);
+});
+}
 
 // Setup a public folder on the server and add a favicon.
 app.use(express.static(path.join(__dirname, 'public')));
@@ -88,11 +101,6 @@ app.get('/lowerthird', function (req, res) {
     console.log('[INFO/Express]:' + ' sending lowerthird.html to all requesting clients')
     res.sendFile(__dirname + '/views/lowerthird.html');
 })
-
-// Emit every new YT chat message to Socket.io.
-ytClient.on('chat', json => {
-    io.emit('chat message', json.id, json.authorDetails.profileImageUrl, json.authorDetails.displayName, json.snippet.displayMessage);
-});
 
 // Send to console whenever a user connects or disconnects from the server.
 io.on('connection', function (socket) {
