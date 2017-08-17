@@ -9,13 +9,14 @@ var io = require('socket.io')(http);
 var yt = require('youtube-live-chat');
 var jade = require('jade');
 
-try {
-    var ipwhitelist = require(__dirname + "/ip-whitelist.json");
-} catch (e) {
-    console.log("Please create a ip-whitelist.json like ip-whitelist.example.json with whitelisted ip addresses.")
-}
+//try {
+//    var ipwhitelist = require(__dirname + "/ip-whitelist.json");
+//} catch (e) {
+//    console.log("Please create a ip-whitelist.json like ip-whitelist.example.json with whitelisted ip addresses.")
+//}
 
 // Checks for a JSON file containing important and secret credentials.
+
 try {
     var authDetails = require(__dirname + "/auth.json");
 } catch (e) {
@@ -23,7 +24,7 @@ try {
     process.exit();
 }
 
-var ips = (ipwhitelist.ips);
+//var ips = (ipwhitelist.ips);
 
 // Connecting to the YT api using a channel id and youtube api key from the auth.json file.
 var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
@@ -42,7 +43,7 @@ ytClient.on('error', err => {
 // Setup a public folder on the server and add a favicon.
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(ipfilter(ips, { mode: 'allow' }));
+// app.use(ipfilter(ips, { mode: 'allow' }));
 
 app.set('view engine', 'jade');
 
