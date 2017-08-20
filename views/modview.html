@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>MRC Live Chat Moderation Tool - Modview</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://use.fontawesome.com/a5d45003c8.js"></script>
+<script>
+    function addToList(id, img, name, msg) {
+        var socket = io();
+
+        socket.emit('chat question', id, img, name, msg);
+        $('#' + id).remove();
+    };
+
+    // Add the YT chat message sent from the server to the clientside html.
+    $(function () {
+        var socket = io();
+
+        socket.on('chat message', function (id, img, name, msg) {
+            $('#messages').append($('<div>').attr('id', id).attr('class', 'msg-content')
+                .append($('<img>').attr('src', img).attr('id', 'avatar'), $('<span>').attr('id',
+                    'inner-msg').append($('<p>').text(name).attr('id', 'name'),
+                    $('<p>').text(msg).attr('id', 'message'), $('<i>').attr(
+                        'class', 'fa fa-question').attr('aria-hidden', 'true').attr('id',
+                        'flag-button').attr('onclick', 'addToList(\'' + id + '\', \'' + img +
+                        '\', \'' + name + '\', \'' + msg + '\')'))));
+        })
+
+        $('form').submit(function () {
+            socket.emit('chat question', 'submitted', $('#avaimg').val(), $('#name').val(), $(
+                '#message').val());
+            $('#avaimg').val(''), $('#name').val(''), $('#message').val('');
+            return false;
+        });
+    });
+</script>
+
+<body>
+
+    <div class="container">
+        <div id="messages">
+            <h1>Live YouTube Chat</h1>
+        </div>
+        <div class="custom-message">
+        <form action="">
+                <label for="avaimg" style="float: left;">Avatar URL: </label><input id="avaimg" autocomplete="off" /><label for="name" style="float: left;">Name: </label><input id="name" autocomplete="off" /><label for="message" style="float: left;">Question: </label><input id="message" autocomplete="off" /> <button>Send</button>
+            </form>
+    </div>
+
+</body>
+
+</html>

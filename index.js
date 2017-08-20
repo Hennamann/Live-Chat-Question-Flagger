@@ -25,27 +25,29 @@ try {
 
 //var ips = (ipwhitelist.ips);
 
+// Connecting to the YT api using a channel id and youtube api key from the auth.json file.
+var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
+
 tryUntilSuccess();
 
 function tryUntilSuccess() {
 
     console.log('[INFO/YouTube API]: Attempting to find live stream');
 
-// Connecting to the YT api using a channel id and youtube api key from the auth.json file.
-var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
-
 // Signal that the youtube api is ready.
 ytClient.on('ready', () => {
     console.log('[INFO/YouTube API]:' + ' ready!');
     ytClient.listen(1000);
     tryUntilSuccess();
-});
+})
 
 // if the youtube api fails, print the error output to console.
 ytClient.on('error', err => {
     console.log('[INFO/YouTube API]:' + ' ' + err);
-    tryUntilSuccess();
-});
+    setTimeout(function() {
+        tryUntilSuccess();
+    }, 3600000); //Avoid overloading api requests and api quotas, by limiting the retry to once per hour.
+})
 
 // Emit every new YT chat message to Socket.io.
 ytClient.on('chat', json => {
@@ -93,9 +95,14 @@ app.use(function (err, req, res, _next) {
 
 // Load and send the index.html file to the server client.
 app.get('/', function (req, res) {
-    console.log('[INFO/Express]:' + ' sending index.html to all connected clients')
-    res.sendFile(__dirname + '/views/index.html');
+    console.log('[INFO/Express]:' + ' sending modview.html to all connected clients')
+    res.sendFile(__dirname + '/views/modview.html');
 });
+
+app.get('/hostview', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending hostview.html to all connected clients')
+    res.sendFile(__dirname + '/views/hostview.html');
+})
 
 app.get('/lowerthird', function (req, res) {
     console.log('[INFO/Express]:' + ' sending lowerthird.html to all requesting clients')
@@ -123,6 +130,6 @@ io.on('connection', function (socket) {
 });
 
 //Setup the web server on port 80.
-http.listen(80, function () {
+http.listen(3000, function () {
     console.log('[INFO/HTTP]:' + ' listening on localhost:80');
 });
