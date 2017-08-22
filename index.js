@@ -38,7 +38,6 @@ function tryUntilSuccess() {
 ytClient.on('ready', () => {
     console.log('[INFO/YouTube API]:' + ' ready!');
     ytClient.listen(1000);
-    tryUntilSuccess();
 })
 
 // if the youtube api fails, print the error output to console.
