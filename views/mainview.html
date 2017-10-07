@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>MRC Live Chat Moderation Tool - Main View</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://use.fontawesome.com/a5d45003c8.js"></script>
+<script>
+    function markQuestion(id, img, name, msg) {
+        var socket = io();
+
+        socket.emit('chat question', id, img, name, msg);
+    };
+
+    function genLowerThird(id, img, name, msg) {
+        var socket = io();
+
+        socket.emit('lower third', id, img, name, msg);
+    };
+
+    // Add the YT chat message sent from the server to the clientside html.
+    $(function () {
+        var socket = io();
+
+        socket.on('chat message', function (id, img, name, msg) {
+            $('#messages').append($('<div>').attr('id', id).attr('class', 'msg-content')
+                .append($('<img>').attr('src', img).attr('id', 'avatar'), $('<span>').attr('id',
+                    'inner-msg').append($('<p>').text(name).attr('id', 'name'),
+                    $('<p>').text(msg).attr('id', 'message'), $('<b>').append('<a>').text('Mark as Question ').attr(
+                        'id', 'question-btn').attr('onclick', 'markQuestion(\'' + id + '\', \'' + img +
+                        '\', \'' + name + '\', \'' + msg + '\')'), $('<b>').append($('<a>').text(
+                        ' Generate Lower Third').attr('id', 'lowerthird-btn').attr('style', 'visibility:hidden;').attr('onclick',
+                        'genLowerThird(\'' + id + '\', \'' + img +
+                        '\', \'' + name + '\', \'' + msg + '\')')))));
+        })
+
+        socket.on('chat question', function (id, img, name, msg) {
+            document.getElementById(id).style.backgroundColor = "rgba(255, 255, 0, 0.5)"
+            document.getElementById(id).childNodes[1].childNodes[3].childNodes[0].style.visibility = "visible";
+        })
+    });
+</script>
+
+<body>
+
+    <div class="container">
+        <div id="messages">
+            <h1>YouTube Live Chat Comments:</h1>
+        </div>
+    </div>
+
+</body>
+
+</html>

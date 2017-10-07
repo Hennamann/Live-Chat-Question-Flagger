@@ -46,20 +46,11 @@ body {
     padding-bottom: 15px;
 }
 
-#flag-button {
+#lowerthird-btn, #question-btn {
     cursor: pointer;
 }
 
-#flag-button:hover {
-    color: red;
-    cursor: pointer;
-}
-
-#lowerthird-btn {
-    cursor: pointer;
-}
-
-#lowerthird-btn:hover {
+#lowerthird-btn:hover, #question-btn:hover {
     color: red;
     cursor: pointer;
 }

@@ -25,28 +25,23 @@ try {
 
 //var ips = (ipwhitelist.ips);
 
+function onYTStartSignal() {
+
+    console.log('[INFO/YouTube API]: Received YouTube start signal.');
+    console.log('[INFO/YouTube API]: Attempting to find live stream');
+
 // Connecting to the YT api using a channel id and youtube api key from the auth.json file.
 var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
-
-tryUntilSuccess();
-
-function tryUntilSuccess() {
-
-    console.log('[INFO/YouTube API]: Attempting to find live stream');
 
 // Signal that the youtube api is ready.
 ytClient.on('ready', () => {
     console.log('[INFO/YouTube API]:' + ' ready!');
     ytClient.listen(1000);
-    tryUntilSuccess();
 })
 
 // if the youtube api fails, print the error output to console.
 ytClient.on('error', err => {
     console.log('[INFO/YouTube API]:' + ' ' + err);
-    setTimeout(function() {
-        tryUntilSuccess();
-    }, 3600000); //Avoid overloading api requests and api quotas, by limiting the retry to once per hour.
 })
 
 // Emit every new YT chat message to Socket.io.
@@ -95,34 +90,31 @@ app.use(function (err, req, res, _next) {
 
 // Load and send the index.html file to the server client.
 app.get('/', function (req, res) {
-    console.log('[INFO/Express]:' + ' sending modview.html to all connected clients')
-    res.sendFile(__dirname + '/views/modview.html');
+    console.log('[INFO/Express]:' + ' sending mainview.html to all connected clients')
+    res.sendFile(__dirname + '/views/mainview.html');
 });
-
-app.get('/hostview', function (req, res) {
-    console.log('[INFO/Express]:' + ' sending hostview.html to all connected clients')
-    res.sendFile(__dirname + '/views/hostview.html');
-})
 
 app.get('/lowerthird', function (req, res) {
     console.log('[INFO/Express]:' + ' sending lowerthird.html to all requesting clients')
     res.sendFile(__dirname + '/views/lowerthird.html');
 })
 
-// Send to console whenever a user connects or disconnects from the server.
+app.get('/startyt', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending YouTube start signal')
+    res.send("<h1>YouTube start signal sent!</h1>")
+    onYTStartSignal();
+})
+
 io.on('connection', function (socket) {
 
-    // Send the YT chat message to the client.
     socket.on('chat message', function (id, img, name, msg) {
         io.emit('chat message', id, img, name, msg);
     });
 
-    // Send YT chat message marked as a question to the right list
     socket.on('chat question', function (id, img, name, msg) {
         io.emit('chat question', id, img, name, msg);
     });
 
-    // send a YT chat message to the lowerthird view.
     socket.on('lower third', function (id, img, name, msg) {
         io.emit('lower third', id, img, name, msg);
     });
@@ -130,6 +122,6 @@ io.on('connection', function (socket) {
 });
 
 //Setup the web server on port 80.
-http.listen(3000, function () {
+http.listen(80, function () {
     console.log('[INFO/HTTP]:' + ' listening on localhost:80');
 });
