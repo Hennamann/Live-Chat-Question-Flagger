@@ -8,6 +8,8 @@ A nodejs web app for flagging youtube live chat comments as questions, and gener
 
 ### How It Works
 
+**This description is slightly outdated and will be updated soon!**
+
 ![YouTube Live Chat Question Flagger](https://musicradiocreative-community.s3-eu-west-2.amazonaws.com/original/1X/7ffef9430b48907f8c6673a6b2c84339e7c47e05.gif)
 
 * YouTube Live Chat streams in on the left.
