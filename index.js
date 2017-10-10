@@ -24,6 +24,12 @@ try {
 }
 
 //var ips = (ipwhitelist.ips);
+var ytClient
+
+function onYTStopSignal() {
+    console.log('[INFO/YouTube API]: Received YouTube stop signal.');
+    ytClient.emit('stop', 'Received stop signal!');
+}
 
 function onYTStartSignal() {
 
@@ -31,7 +37,7 @@ function onYTStartSignal() {
     console.log('[INFO/YouTube API]: Attempting to find live stream');
 
 // Connecting to the YT api using a channel id and youtube api key from the auth.json file.
-var ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
+ytClient = new yt(authDetails.channel_id, authDetails.youtube_key);
 
 // Signal that the youtube api is ready.
 ytClient.on('ready', () => {
@@ -101,8 +107,14 @@ app.get('/lowerthird', function (req, res) {
 
 app.get('/startyt', function (req, res) {
     console.log('[INFO/Express]:' + ' sending YouTube start signal')
-    res.send("<h1>YouTube start signal sent!</h1>")
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>YouTube start signal sent!</h1>")
     onYTStartSignal();
+})
+
+app.get('/stopyt', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending YouTube stop signal')
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>YouTube stop signal sent!</h1>")
+    onYTStopSignal();
 })
 
 io.on('connection', function (socket) {
