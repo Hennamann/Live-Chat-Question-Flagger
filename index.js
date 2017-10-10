@@ -121,7 +121,7 @@ io.on('connection', function (socket) {
 
 });
 
-//Setup the web server on port 80.
-http.listen(80, function () {
-    console.log('[INFO/HTTP]:' + ' listening on localhost:80');
+//Setup the web server on port 8080.
+http.listen(8080, function () {
+    console.log('[INFO/HTTP]:' + ' listening on localhost:8080');
 });
