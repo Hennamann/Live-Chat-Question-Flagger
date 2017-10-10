@@ -8,16 +8,16 @@ A nodejs web app for flagging youtube live chat comments as questions, and gener
 
 ### How It Works
 
-**This description is VERY OUTDATED and will be updated soon!**
+![YouTube Live Chat Question Flagger](https://musicradiocreative-community.s3-eu-west-2.amazonaws.com/original/1X/2394cc01970a633dcc20f0640de689b95338d134.png)
 
-![YouTube Live Chat Question Flagger](https://musicradiocreative-community.s3-eu-west-2.amazonaws.com/original/1X/7ffef9430b48907f8c6673a6b2c84339e7c47e05.gif)
-
-* YouTube Live Chat streams in on the left.
-* Click the "?" symbol to flag a question.
-* Questions appear on the right.
+* Live chat stream from YouTube livestream is displayed
+* Click the "Mark as Question" button to flag a question.
+* Questions get highlighted in yellow.
 * Click "Generate Lower Third" to send the question to a static lower-third URL at /lowerthird
 
-### How It Looks
+You can now use the generated lowerthird in a livestreaming app like OBS.
+
+### What It Looks Like
 
 ![YouTube Live Chat Lower Third for Questions](https://musicradiocreative-community.s3-eu-west-2.amazonaws.com/original/1X/ef34d75e879646d473eca1ff18a633a7c390912c.jpg)
 
@@ -62,21 +62,27 @@ Go to http://localhost:8080 to see the app in action.
 
 View the lowerthird at http://localhost:8080/lowerthird.
 
-If you want to run the app contiously you can use the node module forever:
+The app does not check your configured channel for a livestream until you visit http://localhost:8080/startyt.
+Visiting that page will start the YouTube API which will attempt to find your livestream trough yout channel. When your stream is over you have to manually stop the app by visting this page: http://localhost:8080/stopyt.
+
+### Running The App Continously
+
+To run the app continously you can use [forever](https://www.npmjs.com/package/forever):
 
 ```sh
 npm install forever -g
 forever start index.js
 ```
 
-This will run the server even if you leave your ssh session. 
+This will run the server even when you leave your ssh session. 
 
-You can also use Screen, which comes with almost any Linux installation.
+You can also use Screen, which comes bundled with almost any Linux installation:
 
 ```sh
 screen -S server
 ```
-To detach yourself from the screen press Ctrl+A then d separately.
+
+To detach yourself from the screen press Ctrl+A then D separately. 
 
 ### Start The App on Boot Using Systemd
 
@@ -119,7 +125,7 @@ systemctl stop livechat
 
 ### Development
 
-Want to contribute? Great!
+Want to contribute? Great! Just make a pull request with your changes and we will review it ASAP!
 
 License
 ----
