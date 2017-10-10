@@ -30,25 +30,27 @@ These instructions assume you are using Debian.
 Install the dependencies and clone the repo.
 
 ```sh
-$ curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
-$ bash nodesource_setup.sh
-$ apt-get install nodejs build-essential
-$ git clone https://github.com/Hennamann/YouTube-Live-Chat-Question-Flagger
+curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+bash nodesource_setup.sh
+apt-get install nodejs build-essential
+git clone https://github.com/Hennamann/Live-Chat-Question-Flagger
 ```
 
 Add your YouTube Channel ID and API key.
 
 ```sh
-$ cd YouTube-Live-Chat-Question-Flagger
-$ cp auth.example.json auth.json
-$ nano auth.json
+cd YouTube-Live-Chat-Question-Flagger
+cp auth.example.json auth.json
+nano auth.json
 ```
 
 Install Node Modules.
 
 ```sh
-$ npm install
+npm install
 ```
+
+### Running The App
 
 Start the app!
 
@@ -56,9 +58,9 @@ Start the app!
 node index.js
 ```
 
-Go to http://localhost to see the app in action.
+Go to http://localhost:8080 to see the app in action.
 
-View the lowerthird at http://localhost/lowerthird.
+View the lowerthird at http://localhost:8080/lowerthird.
 
 If you want to run the app contiously you can use the node module forever:
 
@@ -75,6 +77,45 @@ You can also use Screen, which comes with almost any Linux installation.
 screen -S server
 ```
 To detach yourself from the screen press Ctrl+A then d separately.
+
+### Start The App on Boot Using Systemd
+
+Create a service file for the application:
+
+```sh
+/etc/systemd/system/livechat.service
+```
+
+Include this inside the service file (modify slightly to match your setup):
+
+```sh
+[Service]
+ExecStart=/usr/bin/node /root/Live-Chat-Question-Flagger/index.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=node-livechat
+User=root
+Group=root
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start the service:
+
+```sh
+systemctl enable livechat
+systemctl start livechat
+```
+
+You can restart and/or stop the service with the following commands:
+
+```sh
+systemctl restart livechat
+systemctl stop livechat
+```
 
 ### Development
 
