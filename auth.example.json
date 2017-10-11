@@ -3,5 +3,7 @@
     "youtube_key": "YouTube Data API Key Here",
 
     "user_id": "Facebook User ID Here",
-    "user_access_token": "Facebook User Access Token Here"
+    "user_access_token": "Facebook User Access Token Here",
+
+    "twitch_channel_name": "Twitch Channel Name Here"
 }
