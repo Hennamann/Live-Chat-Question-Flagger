@@ -7,6 +7,7 @@ var favicon = require('serve-favicon');
 var path = require('path')
 var io = require('socket.io')(http);
 var yt = require('youtube-live-chat');
+var fb = require('facebook-live-chat');
 var jade = require('jade');
 
 //try {
@@ -25,6 +26,32 @@ try {
 
 //var ips = (ipwhitelist.ips);
 var ytClient
+var fbClient
+
+function onFBStopSignal() {
+    console.log('[INFO/Facebook API]: Received Facebook stop signal.');
+    fbClient.emit('stop', 'Received stop signal!');
+}
+
+function onFBStartSignal() {
+    fbClient = new fb(authDetails.user_id, authDetails.user_access_token);
+    
+    fbClient.on('ready', () => {
+        console.log('[INFO/Facebook Live API]:' + ' ready!');
+        fbClient.listen(1100);
+    })
+    
+    // if the facebook api fails, print the error output to console.
+    fbClient.on('error', err => {
+        console.log('[INFO/Facebook Live API]:' + ' ' + err);
+    })
+    
+    // Emit every new facebook chat message to Socket.io.
+    fbClient.on('chat', json => {
+        io.emit('chat message', json.id, 'https://scontent.fsvg1-1.fna.fbcdn.net/v/t31.0-1/c379.0.1290.1290/10506738_10150004552801856_220367501106153455_o.jpg?oh=c388fe6f7c9e7d5f9a69dcd4208b0fd8&oe=5A7F107C', json.from.name, json.message);
+    });
+    
+}
 
 function onYTStopSignal() {
     console.log('[INFO/YouTube API]: Received YouTube stop signal.');
@@ -32,7 +59,6 @@ function onYTStopSignal() {
 }
 
 function onYTStartSignal() {
-
     console.log('[INFO/YouTube API]: Received YouTube start signal.');
     console.log('[INFO/YouTube API]: Attempting to find live stream');
 
@@ -115,6 +141,18 @@ app.get('/stopyt', function (req, res) {
     console.log('[INFO/Express]:' + ' sending YouTube stop signal')
     res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>YouTube stop signal sent!</h1>")
     onYTStopSignal();
+})
+
+app.get('/startfb', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending Facebook start signal')
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>Facebook start signal sent!</h1>")
+    onFBStartSignal();
+})
+
+app.get('/stopfb', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending Facebook stop signal')
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>Facebook stop signal sent!</h1>")
+    onFBStopSignal();
 })
 
 io.on('connection', function (socket) {

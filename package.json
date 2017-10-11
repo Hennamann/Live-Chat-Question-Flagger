@@ -1,6 +1,6 @@
 {
   "name": "mrc-youtube-questions-approver",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple server and client project for flagging youtube live chat comments as questions, then generating a lower third for the flagged comments.",
   "main": "index.js",
   "scripts": {
@@ -16,10 +16,15 @@
   "dependencies": {
     "express": "^4.16.2",
     "express-ipfilter": "^0.3.1",
+    "facebook-live-chat": "^1.0.1",
     "jade": "^1.11.0",
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3",
     "socket.io-redis": "^5.2.0",
     "youtube-live-chat": "git+https://github.com/Hennamann/youtube-live-chat.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hennamann/Live-Chat-Question-Flagger.git"
   }
 }

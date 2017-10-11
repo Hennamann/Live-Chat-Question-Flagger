@@ -32,14 +32,13 @@
                     $('<p>').text(msg).attr('id', 'message'), $('<b>').append('<a>').text('Mark as Question ').attr(
                         'id', 'question-btn').attr('onclick', 'markQuestion(\'' + id + '\', \'' + img +
                         '\', \'' + name + '\', \'' + msg + '\')'), $('<b>').append($('<a>').text(
-                        ' Generate Lower Third').attr('id', 'lowerthird-btn').attr('style', 'visibility:hidden;').attr('onclick',
+                        ' Generate Lower Third').attr('id', 'lowerthird-btn').attr('onclick',
                         'genLowerThird(\'' + id + '\', \'' + img +
                         '\', \'' + name + '\', \'' + msg + '\')')))));
         })
 
         socket.on('chat question', function (id, img, name, msg) {
             document.getElementById(id).style.backgroundColor = "rgba(255, 255, 0, 0.5)"
-            document.getElementById(id).childNodes[1].childNodes[3].childNodes[0].style.visibility = "visible";
         })
     });
 </script>
@@ -48,7 +47,7 @@
 
     <div class="container">
         <div id="messages">
-            <h1>YouTube Live Chat Comments:</h1>
+            <h1>Live Chat Comments:</h1>
         </div>
     </div>
 

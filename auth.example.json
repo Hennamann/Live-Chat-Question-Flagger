@@ -1,4 +1,7 @@
 {
     "channel_id": "YouTube Channel ID Here",
-    "youtube_key": "YouTube Data API Key Here"
+    "youtube_key": "YouTube Data API Key Here",
+
+    "user_id": "Facebook User ID Here",
+    "user_access_token": "Facebook User Access Token Here"
 }
