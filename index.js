@@ -45,10 +45,9 @@ function onFBStartSignal() {
     fbClient.on('error', err => {
         console.log('[INFO/Facebook Live API]:' + ' ' + err);
     })
-    
     // Emit every new facebook chat message to Socket.io.
     fbClient.on('chat', json => {
-        io.emit('chat message', json.id, 'https://scontent.fsvg1-1.fna.fbcdn.net/v/t31.0-1/c379.0.1290.1290/10506738_10150004552801856_220367501106153455_o.jpg?oh=c388fe6f7c9e7d5f9a69dcd4208b0fd8&oe=5A7F107C', json.from.name, json.message);
+        io.emit('chat message', json.id, 'https://graph.facebook.com/v2.10/' + json.from.id + '/picture?type=large&redirect=true&access_token=' + authDetails.user_access_token, json.from.name, json.message);
     });
     
 }
