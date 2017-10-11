@@ -131,6 +131,20 @@ app.get('/lowerthird', function (req, res) {
     res.sendFile(__dirname + '/views/lowerthird.html');
 })
 
+app.get('/startall', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending general start signal')
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>Serivce start signal sent!</h1>")
+    onYTStartSignal();
+    onFBStartSignal();
+})
+
+app.get('/stopall', function (req, res) {
+    console.log('[INFO/Express]:' + ' sending general stop signal')
+    res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>Serive stop signal sent!</h1>")
+    onYTStopSignal();
+    onFBStopSignal();
+})
+
 app.get('/startyt', function (req, res) {
     console.log('[INFO/Express]:' + ' sending YouTube start signal')
     res.send("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><h1>YouTube start signal sent!</h1>")
