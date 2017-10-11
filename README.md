@@ -123,6 +123,16 @@ systemctl restart livechat
 systemctl stop livechat
 ```
 
+### Credits
+This nodejs app uses the following node modules:
+
+* [Socket.io](https://socket.io/)
+* [Express.js](https://expressjs.com/)
+* [youtube-live-chat](https://www.npmjs.com/package/youtube-live-chat) (A slighly modified version: https://github.com/Hennamann/youtube-live-chat) 
+* [facebook-live-chat](https://www.npmjs.com/package/facebook-live-chat)
+
+Thanks to Mike Russel and Music Radio Creative for coming up with the idea, and helping the development of the app!
+
 ### Development
 
 Want to contribute? Great! Just make a pull request with your changes and we will review it ASAP!
