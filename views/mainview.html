@@ -53,7 +53,7 @@
 <body>
 
     <div class="container">
-        <h1>Live Chat Comments:</h1> <button onclick="autoScrollEnabled= !autoScrollEnabled">Disable/Enable Auto-Scroll</button>
+        <h1>Live Chat Comments:</h1> <button id="auto-scroll-button" onclick="autoScrollEnabled= !autoScrollEnabled; if (autoScrollEnabled) {$('#auto-scroll-button').html('Disable Auto-Scroll')} else {$('#auto-scroll-button').html('Enable Auto-Scroll')}">Enable Auto-Scroll</button>
         <div id="messages">
         </div>
     </div>
