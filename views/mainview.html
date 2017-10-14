@@ -25,13 +25,13 @@
     $(function () {
         var socket = io();
 
-        socket.on('chat message', function (id, img, name, msg) {
+        socket.on('chat message', function (id, img, escName, escMsg, name, msg) {
             $('#messages').append($('<div>').attr('id', id).attr('class', 'msg-content')
                 .append($('<img>').attr('src', img).attr('id', 'avatar'), $('<span>').attr('id',
                     'inner-msg').append($('<p>').text(name).attr('id', 'name'),
                     $('<p>').text(msg).attr('id', 'message'), $('<b>').append('<a>').text('Mark as Question ').attr(
                         'id', 'question-btn').attr('onclick', 'markQuestion(\'' + id + '\', \'' + img +
-                        '\', \'' + name + '\', \'' + msg + '\')'), $('<b>').append($('<a>').text(
+                        '\', \'' + escName + '\', \'' + escMsg + '\')'), $('<b>').append($('<a>').text(
                         ' Generate Lower Third').attr('id', 'lowerthird-btn').attr('onclick',
                         'genLowerThird(\'' + id + '\', \'' + img +
                         '\', \'' + name + '\', \'' + msg + '\')')))));

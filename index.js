@@ -11,6 +11,8 @@ var fb = require('facebook-live-chat');
 var tw = require('twitch-webchat');
 var jade = require('jade');
 var EventEmitter = require('event-chains');
+var jsesc = require('jsesc');
+var unescapeJs = require('unescape-js');
 
 //try {
 //    var ipwhitelist = require(__dirname + "/ip-whitelist.json");
@@ -41,7 +43,7 @@ function onTWStartSignal() {
                 var user = message.from
                 var text = message.text // chat message content as text string 
 
-                io.emit('chat message', 'tw-' + Math.floor((Math.random() * 100000000) + 1), 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png', user, text);
+                io.emit('chat message', 'tw-' + Math.floor((Math.random() * 100000000) + 1), 'https://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_70x70.png', jsesc(user), jsesc(text), user, text);
                 break
             case 'tick':
             case 'debug':
@@ -77,7 +79,7 @@ function onFBStartSignal() {
     })
     // Emit every new facebook chat message to Socket.io.
     fbClient.on('chat', json => {
-        io.emit('chat message', json.id, 'https://graph.facebook.com/v2.10/' + json.from.id + '/picture?type=large&redirect=true&access_token=' + authDetails.user_access_token, json.from.name, json.message);
+        io.emit('chat message', json.id, 'https://graph.facebook.com/v2.10/' + json.from.id + '/picture?type=large&redirect=true&access_token=' + authDetails.user_access_token, jsesc(json.from.name), jsesc(json.message), json.from.name, json.message);
     });
 
 }
@@ -107,7 +109,7 @@ function onYTStartSignal() {
 
     // Emit every new YT chat message to Socket.io.
     ytClient.on('chat', json => {
-        io.emit('chat message', json.id, json.authorDetails.profileImageUrl, json.authorDetails.displayName, json.snippet.displayMessage);
+        io.emit('chat message', json.id, json.authorDetails.profileImageUrl, jsesc(json.authorDetails.displayName), jsesc(json.snippet.displayMessage), json.authorDetails.displayName, json.snippet.displayMessage);
     });
 }
 
@@ -215,15 +217,15 @@ app.get('/stoptw', function (req, res) {
 io.on('connection', function (socket) {
 
     socket.on('chat message', function (id, img, name, msg) {
-        io.emit('chat message', id, img, name, msg);
+        io.emit('chat message', id, img, unescapeJs(name), unescapeJs(msg));
     });
 
     socket.on('chat question', function (id, img, name, msg) {
-        io.emit('chat question', id, img, name, msg);
+        io.emit('chat question', id, img, unescapeJs(name), unescapeJs(msg));
     });
 
     socket.on('lower third', function (id, img, name, msg) {
-        io.emit('lower third', id, img, name, msg);
+        io.emit('lower third', id, img, unescapeJs(name), unescapeJs(msg));
     });
 
 });
