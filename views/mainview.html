@@ -9,6 +9,8 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="https://use.fontawesome.com/a5d45003c8.js"></script>
 <script>
+    var autoScrollEnabled = false;
+
     function markQuestion(id, img, name, msg) {
         var socket = io();
 
@@ -35,6 +37,11 @@
                         ' Generate Lower Third').attr('id', 'lowerthird-btn').attr('onclick',
                         'genLowerThird(\'' + id + '\', \'' + img +
                         '\', \'' + name + '\', \'' + msg + '\')')))));
+
+                        if (autoScrollEnabled) {
+                            var messageDiv = document.getElementById("messages");
+                            messageDiv.scrollTop = messageDiv.scrollHeight;
+                        }
         })
 
         socket.on('chat question', function (id, img, name, msg) {
@@ -46,8 +53,8 @@
 <body>
 
     <div class="container">
+        <h1>Live Chat Comments:</h1> <button onclick="autoScrollEnabled= !autoScrollEnabled">Disable/Enable Auto-Scroll</button>
         <div id="messages">
-            <h1>Live Chat Comments:</h1>
         </div>
     </div>
 
