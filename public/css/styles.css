@@ -8,7 +8,7 @@ body {
 
 .container {
     width: 100%;
-    height: 100%;
+    height: 94%;
     position: absolute;
 }
 
@@ -16,12 +16,6 @@ body {
     width: 100%;
     float: left;
     height: 90%;
-    overflow-y: scroll;
-}
-
-#questions {
-    width: 100%;
-    height: 96%;
     overflow-y: scroll;
 }
 
