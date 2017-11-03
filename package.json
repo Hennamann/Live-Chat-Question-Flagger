@@ -16,9 +16,7 @@
   "dependencies": {
     "event-chains": "0.0.8",
     "express": "^4.16.2",
-    "express-ipfilter": "^0.3.1",
     "facebook-live-chat": "^1.0.1",
-    "jade": "^1.11.0",
     "jsesc": "^2.5.1",
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3",

@@ -1,7 +1,5 @@
 var express = require('express');
 var app = require('express')();
-var ipfilter = require('express-ipfilter').IpFilter;
-var IpDeniedError = require('express-ipfilter').IpDeniedError;
 var http = require('http').Server(app);
 var favicon = require('serve-favicon');
 var path = require('path')
@@ -9,16 +7,9 @@ var io = require('socket.io')(http);
 var yt = require('youtube-live-chat');
 var fb = require('facebook-live-chat');
 var tw = require('twitch-webchat');
-var jade = require('jade');
 var EventEmitter = require('event-chains');
 var jsesc = require('jsesc');
 var unescapeJs = require('unescape-js');
-
-//try {
-//    var ipwhitelist = require(__dirname + "/ip-whitelist.json");
-//} catch (e) {
-//    console.log("Please create a ip-whitelist.json like ip-whitelist.example.json with whitelisted ip addresses.")
-//}
 
 // Checks for a JSON file containing important and secret credentials.
 try {
@@ -28,9 +19,7 @@ try {
     process.exit();
 }
 
-
 var events = new EventEmitter();
-//var ips = (ipwhitelist.ips);
 var ytClient
 var fbClient
 
@@ -117,39 +106,6 @@ function onYTStartSignal() {
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 //app.use(ipfilter(ips, { mode: 'allow' }));
-
-app.set('view engine', 'jade');
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, _next) {
-        console.log('Error handler', err);
-        if (err instanceof IpDeniedError) {
-            res.status(401);
-        } else {
-            res.status(err.status || 500);
-        }
-
-        res.render('error', {
-            message: 'Access Denied!',
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, _next) {
-    console.log('Error handler', err);
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
 
 // Load and send the index.html file to the server client.
 app.get('/', function (req, res) {
