@@ -1,14 +1,14 @@
 # Live Questions and Answers Lower Third Generator
 
-A nodejs web app for flagging youtube live chat comments as questions, and generating lower thirds.
+A Nodejs Web app for flagging live chat comments as questions, and generating lower thirds.
 
-  - Enable questions and answers on YouTube Live
-  - Show questions from your audience as lower thirds
-  - Encourage more interaction from your YouTube Live audience
+  - Enable questions and answers on Live Streams.
+  - Show questions from your audience as lower thirds.
+  - Encourage more interaction from your Live audience.
 
 ### How It Works
 
-![YouTube Live Chat Question Flagger](https://musicradiocreative-community.s3-eu-west-2.amazonaws.com/original/1X/2394cc01970a633dcc20f0640de689b95338d134.png)
+![YouTube Live Chat Question Flagger](https://pro2-bar-s3-cdn-cf1.myportfolio.com/405f55c1b61f7dacd9f668750ad16523/2f320fb5-cf41-4c06-a115-a3d1fa87e40a_rw_1920.png?h=92a4275944c023755a7130f4764fff68)
 
 * Live chat stream from YouTube livestream is displayed
 * Click the "Mark as Question" button to flag a question.
@@ -36,13 +36,25 @@ apt-get install nodejs build-essential
 git clone https://github.com/Hennamann/Live-Chat-Question-Flagger
 ```
 
-Add your YouTube Channel ID and API key.
+Depending on what platforms you want to support you will need to fill in some info:
 
+#### YouTube
+If you want to support YouTube you need a YouTube auth key instructions can be found here: https://developers.google.com/youtube/registering_an_application You will also need to find your YouTube channel ID, instructions here: https://support.google.com/youtube/answer/3250431 
+
+#### Facebook
+Facebook requires a user access token from your personal facebook account, these can be obtained from here: https://developers.facebook.com/tools/explorer/ You will need a FaceBook application tool to do so. (User access tokens last for 1 month by default but can be extended to last for two months on this page: https://developers.facebook.com/tools/debug/accesstoken/). You will also need your facebook userid or pageid, the api should work with the id found in the url for you FaceBook page or user page, but you can also use this site to be 100% sure: https://findmyfbid.com/
+
+#### Twitch
+Twitch is really straightforward to setup, simply grab your Twitch username and you're set. 
+
+
+Once you have the information you need, simply fill in the correct fields in the auth.example.json file and save it as auth.json doing something like this:
 ```sh
 cd YouTube-Live-Chat-Question-Flagger
 cp auth.example.json auth.json
 nano auth.json
 ```
+Don't worry if you don't use some of the live stream services, the server will ignore them as long as you avoid starting the apis for them (more on this later in the README).
 
 Install Node Modules.
 
@@ -62,8 +74,10 @@ Go to http://localhost:8080 to see the app in action.
 
 View the lowerthird at http://localhost:8080/lowerthird.
 
-The app does not check your configured channel for a livestream until you visit http://localhost:8080/startyt.
-Visiting that page will start the YouTube API which will attempt to find your livestream trough yout channel. When your stream is over you have to manually stop the app by visting this page: http://localhost:8080/stopyt.
+Visiting the site at this point will reveal a fairly empty page, this is because you need to start the different live stream api pullers. If you have added API info for all the different services you can simply visit http://localhost:8080/startall and http://localhost:8080/stopall to stop the API pulllers. If you are not running all of them you have to manually use the start webhooks for the services you are using:
+* **YouTube:** http://localhost:8080/startyt and http://localhost:8080/stopyt
+* **FaceBook:** http://localhost:8080/startfb and http://localhost:8080/stopfb
+* **Twitch:** http://localhost:8080/starttw and http://localhost:8080/stoptw
 
 ### Running The App Continously
 
@@ -123,15 +137,23 @@ systemctl restart livechat
 systemctl stop livechat
 ```
 
+### TODO
+* **Add authentication:** As it stands there is no authentication for the app, meaning anyone with the url can flag comments and generate lowerthirds.
+* **Improve the Twitch support:** This might prove difficult as Twitch does not have any APIs for getting twitch comments outside of the overly compicated IRC system. 
+
 ### Credits
-This nodejs app uses the following node modules:
+This Nodejs app uses the following node modules:
 
 * [Socket.io](https://socket.io/)
 * [Express.js](https://expressjs.com/)
 * [youtube-live-chat](https://www.npmjs.com/package/youtube-live-chat) (A slighly modified version: https://github.com/Hennamann/youtube-live-chat) 
 * [facebook-live-chat](https://www.npmjs.com/package/facebook-live-chat)
+* [jsesc](https://www.npmjs.com/package/jsesc)
+* [unescape-js](https://www.npmjs.com/package/unescape-js)
+* [twitch-webchat](https://www.npmjs.com/package/twitch-webchat)
+* [event-chains](https://www.npmjs.com/package/event-chains)
 
-Thanks to Mike Russel and Music Radio Creative for coming up with the idea, and helping the development of the app!
+Thanks to Mike Russell and Music Radio Creative for coming up with the idea, and helping the development of the app!
 
 ### Development
 
